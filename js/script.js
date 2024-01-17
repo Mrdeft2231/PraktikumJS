@@ -1,10 +1,8 @@
-/*          Описание игры            */
 
-//объект настроек игры
 const gameParameters = {
-  MAX_LEVEL: 10, //максимальный уровень героя
-  MAX_STAT: 99, //минимальный уровень параметра героя
-  MIN_STAT: 10 //минимальный уровень параметка для умения
+  MAX_LEVEL: 10, 
+  MAX_STAT: 99, 
+  MIN_STAT: 10 
 };
 
 //обхект классов игры
@@ -14,27 +12,27 @@ const gameClasses = {
   Hero: "Класс"
 };
 
-//объявление героя оппонента
+
 let enemyHero = null;
 
-//объявления героя игрока
+
 let playerHero = null;
 
-//добавление героя игрока на экран
+
 const sendToBattleButton = document.getElementById("sendToBattleButton");
 
-//действие героя игрока
+
 const doSkillButton = document.getElementById("doSkillButton");
 
-//вывод героя оппонента на экран
+
 const getEnemyButton = document.getElementById("getEnemyButton");
 
-//начало битвы
+
 const startBattleButton = document.getElementById("startBattleButton");
 
-/*          Ход игры            */
 
-//вывод героя игрока на экран
+
+
 function displayPlayerHero(hero) {
   document.getElementById("playerHeroClass").innerHTML =
     gameClasses[hero.constructor.name];
@@ -48,7 +46,7 @@ function displayPlayerHero(hero) {
   hero.displayHero();
 }
 
-//вывод героя игрока на экран
+
 function displayEnemyHero(hero) {
   document.getElementById("enemyHeroClass").innerHTML =
     gameClasses[hero.constructor.name];
@@ -62,7 +60,6 @@ function displayEnemyHero(hero) {
   hero.displayHero();
 }
 
-//получение информации героя игрока
 sendToBattleButton.onclick = () => {
   const heroName = document.getElementById("name").value;
   if (heroName !== "") {
@@ -71,13 +68,6 @@ sendToBattleButton.onclick = () => {
     ).value;
     const heroLevel = document.getElementById("level").value;
     const heroStats = {};
-
-    //если введённое значение параметра больше максимального, устанавливаем максимальное
-    
-    heroStats.str = Number(document.getElementById("level").value);
-    if (heroStats.str > gameParameters.MAX_LEVEL) {
-      heroStats.str = gameParameters.MAX_LEVEL;
-    }
 
     heroStats.str = Number(document.getElementById("strength").value);
     if (heroStats.str > gameParameters.MAX_STAT) {
@@ -130,26 +120,25 @@ sendToBattleButton.onclick = () => {
 };
 
 getEnemyButton.onclick = () => {
-  //получение героя оппонента с сервера
+
   fetch(`https://api-code.practicum-team.ru/heroes`)
     .then((response) => response.json())
     .then((data) => {
-      let randomEnemy = data[Math.floor(Math.random() * data.length)]; //получение случайного героя оппонента
-      console.log(randomEnemy); //вывод героя оппонента в консоль
+      let randomEnemy = data[Math.floor(Math.random() * data.length)];
+      console.log(randomEnemy); 
 
-      //создаём экземпляр класса героя оппонента
+
       enemyHero = new Hero(
-        randomEnemy.title, //имя героя
-        Math.floor(Math.random() * 10) + 1, //уровень героя
-        randomEnemy.hp, //запас сил героя
+        randomEnemy.title, 
+        Math.floor(Math.random() * 10) + 1, 
+        randomEnemy.hp, 
         {
           str: randomEnemy.str,
           int: randomEnemy.int,
           agi: randomEnemy.agi
         }
-      ); //параметры героя
-
-      //заполняем карточку героя оппонента
+      ); 
+ 
       displayEnemyHero(enemyHero);
 
       if (playerHero) {
@@ -161,7 +150,7 @@ getEnemyButton.onclick = () => {
 
 function countStatsSum(hero) {
   let statsSum = 0;
-    // Последовательно прибавляем в переменную statsSum значения характеристик из объекта hero
+  
   statsSum += hero.stats.str;
   statsSum += hero.stats.int;
   statsSum += hero.stats.agi;
